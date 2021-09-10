@@ -1,0 +1,89 @@
+<h1>Color Tint Generator</h1>
+
+<form id="pluginForm">
+    <fieldset>
+        <legend>Color information</legend>
+
+        <p>
+            <label for="colorCode">Color</label>
+            <input type="color" id="colorCode" name="colorCode" value="#F65446">
+        </p>
+        <p>
+            <label for="colorName">Color Name</label>
+            <input type="text" id="colorName" name="colorName" value="Primary">
+        </p>
+        <p>
+            <label for="tintNumber">Number of tints</label>
+            <input type="number" value="10" min="1" max="10" id="tintNumber" name="tintNumber">
+        </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Frame information</legend>
+
+        <p>
+            <label for="circleSize">Circle size</label>
+            <input type="number" value="120" min="48" id="circleSize" name="circleSize">
+        </p>
+        <p>
+            <label for="circleSpacing">Circle spacing</label>
+            <input type="number" value="32" min="0" id="circleSpacing" name="circleSpacing">
+        </p>
+        <p>
+            <label>Choose the frame orientation</label>
+            <input type="radio" name="direction" id="frameH" checked>
+            <label for="frameH">Horizontal</label>
+            <input type="radio" name="direction" id="frameV">
+            <label for="frameV">Vertical</label>
+        </p>
+    </fieldset>
+
+    <input type="hidden" name="frameDirection" value="horizontal">
+
+    <button id="generate">Generate Tints</button>
+    <button id="cancel">Cancel</button>
+</form>
+
+<script>
+    document.getElementById('generate').onclick = (event) => {
+        event.preventDefault()
+
+        // Get the form
+        let pluginForm = document.querySelector('#pluginForm')
+
+        // Get all field data from the form
+        let pluginFormData = new FormData(pluginForm)
+
+        // Update the frameDirection value if it's vertical
+        // We're doing this because radio buttons don't work very well with FormData
+        if (document.querySelector('#frameV').checked) {
+            pluginFormData.set('frameDirection', 'vertical')
+        }
+
+        // Create a new object and populate it with the form data
+        let formDataObj = {}
+
+        for (let [key, value] of pluginFormData) {
+            formDataObj[key] = value
+        }
+
+        // Send the form data object to the plugin script
+        // The * is the origin parameter and it's used for authentication
+        parent.postMessage({pluginMessage: {type: 'actionGenerate', formDataObj}}, '*')
+    }
+
+    document.getElementById('cancel').onclick = () => {
+        parent.postMessage({pluginMessage: {type: 'actionExit'}}, '*')
+    }
+
+</script>
+
+<style>
+    label {
+        display: block;
+    }
+
+    input[type=radio] + label {
+        display: inline-block;
+    }
+</style>

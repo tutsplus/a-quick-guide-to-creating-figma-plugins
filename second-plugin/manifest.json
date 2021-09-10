@@ -1,0 +1,10 @@
+{
+  "name": "Color Tint Generator - Adi",
+  "id": "1013055845989749696",
+  "api": "1.0.0",
+  "main": "tint-generator.js",
+  "editorType": [
+    "figma"
+  ],
+  "ui": "tint-generator.html"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "First Plugin - Adi",
+  "id": "1012702735659692600",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ]
+}
